@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+نظام إدارة أكاديمية التدريب
+</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com">
+
+<style>
+
+:root{
+
+--primary:#2563EB;
+--secondary:#0F766E;
+--success:#16A34A;
+--danger:#DC2626;
+
+--bg:#F5F7FA;
+--card:#FFFFFF;
+--text:#1F2937;
+
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+}
+
+.layout{
+display:flex;
+min-height:100vh;
+}
+
+.sidebar{
+width:260px;
+background:#0F172A;
+color:white;
+padding:20px;
+}
+
+.logo{
+text-align:center;
+font-size:28px;
+font-weight:700;
+margin-bottom:25px;
+}
+
+.sidebar a{
+display:block;
+padding:12px;
+margin:8px 0;
+border-radius:10px;
+background:#1E293B;
+cursor:pointer;
+text-decoration:none;
+color:white;
+}
+
+.sidebar a:hover{
+background:#2563EB;
+}
+
+.main{
+flex:1;
+padding:20px;
+}
+
+.header{
+background:white;
+padding:15px;
+border-radius:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.search{
+padding:10px;
+border:1px solid #ddd;
+border-radius:10px;
+width:250px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.counter{
+font-size:28px;
+font-weight:700;
+color:#2563EB;
+}
+
+.page{
+display:none;
+}
+
+.page.active{
+display:block;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:10px;
+text-align:right;
+}
+
+button{
+background:#2563EB;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.danger{
+background:#DC2626;
+}
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.5);
+}
+
+.modal-box{
+background:white;
+width:450px;
+max-width:95%;
+padding:20px;
+border-radius:12px;
+margin:80px auto;
+}
+
+input,
+select{
+width:100%;
+padding:10px;
+margin:6px 0;
+border:1px solid #ddd;
+border-radius:8px;
+}
+
+.badge{
+background:#DCFCE7;
+padding:5px 10px;
+border-radius:20px;
+}
+
+@media(max-width:768px){
+
+.layout{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+<div class="sidebar">
+
+<div class="logo">
+🎓 الأكاديمية
+</div>
+
+<a onclick="showPage('dashboard')">
+الرئيسية
+</a>
+
+<a onclick="showPage('courses')">
+الدورات
+</a>
+
+<a onclick="showPage('trainers')">
+المدربون
+</a>
+
+<a onclick="showPage('reports')">
+التقارير
+</a>
+
+</div>
+
+<div class="main">
+
+<div class="header">
+
+<h2>
+نظام إدارة أكاديمية التدريب
+</h2>
+
+<input
+id="search"
+class="search"
+placeholder="بحث عن دورة">
+
+</div>
+<!-- DASHBOARD -->
+
+<div id="dashboard" class="page active">
+
+<h1 style="margin-bottom:20px;">
+🏆 لوحة التحكم الرئيسية
+</h1>
+
+<div class="cards">
+
+<div class="card">
+<div class="counter" id="totalCourses">3</div>
+<p>إجمالي الدورات</p>
+</div>
+
+<div class="card">
+<div class="counter">15</div>
+<p>عدد المدربين</p>
+</div>
+
+<div class="card">
+<div class="counter">120</div>
+<p>عدد المتدربين</p>
+</div>
+
+<div class="card">
+<div class="counter">92%</div>
+<p>نسبة الحضور</p>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>
+📚 أحدث الدورات
+</h3>
+
+<br>
+
+<table>
+
+<tr>
+<th>الدورة</th>
+<th>المدرب</th>
+<th>الحالة</th>
+</tr>
+
+<tr>
+<td>إدارة المشاريع الاحترافية</td>
+<td>أحمد العريقي</td>
+<td><span class="badge">مكتملة</span></td>
+</tr>
+
+<tr>
+<td>الأمن السيبراني</td>
+<td>محمد الحضرمي</td>
+<td><span class="badge">قيد التنفيذ</span></td>
+</tr>
+
+<tr>
+<td>مهارات القيادة</td>
+<td>سارة الأهدل</td>
+<td><span class="badge">مخطط لها</span></td>
+</tr>
+
+</table>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h3>
+📅 الدورات القادمة
+</h3>
+
+<br>
+
+<ul style="line-height:2">
+
+<li>Excel المتقدم - 15 أكتوبر</li>
+<li>خدمة العملاء - 20 أكتوبر</li>
+<li>مهارات التواصل - 25 أكتوبر</li>
+
+</ul>
+
+</div>
+
+</div>
+
+<!-- COURSES -->
+
+<div id="courses" class="page">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+">
+
+<h2>
+الدورات التدريبية
+</h2>
+
+<button onclick="openModal()">
+إضافة دورة
+</button>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>اسم الدورة</th>
+<th>المدرب</th>
+<th>الساعات</th>
+<th>الحالة</th>
+<th>إجراء</th>
+
+</tr>
+
+</thead>
+
+<tbody id="coursesTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- TRAINERS -->
+
+<div id="trainers" class="page">
+
+<div class="card">
+
+<h2>
+المدربون
+</h2>
+
+<br>
+
+<ul style="line-height:2">
+
+<li>أحمد العريقي</li>
+<li>محمد الحضرمي</li>
+<li>سارة الأهدل</li>
+<li>عبدالله الحكيمي</li>
+
+</ul>
+
+</div>
+
+</div>
+
+<!-- REPORTS -->
+
+<div id="reports" class="page">
+
+<div class="card">
+
+<h2>
+التقارير
+</h2>
+
+<br>
+
+<button onclick="window.print()">
+طباعة تقرير الدورات
+</button>
+
+</div>
+
+</div>
+
+<!-- MODAL -->
+
+<div id="modal" class="modal">
+
+<div class="modal-box">
+
+<h3>
+إضافة دورة جديدة
+</h3>
+
+<br>
+
+<input
+id="courseName"
+placeholder="اسم الدورة">
+
+<input
+id="trainerName"
+placeholder="اسم المدرب">
+
+<input
+id="hours"
+type="number"
+placeholder="عدد الساعات">
+
+<select id="status">
+
+<option>مخطط لها</option>
+<option>قيد التنفيذ</option>
+<option>مكتملة</option>
+
+</select>
+
+<br>
+
+<button onclick="saveCourse()">
+حفظ الدورة
+</button>
+
+<button
+class="danger"
+onclick="closeModal()">
+إغلاق
+</button>
+
+</div>
+
+</div>
+<script>
+
+/* ==========================
+البيانات الافتراضية
+========================== */
+
+let courses = [
+
+{
+name:"إدارة المشاريع الاحترافية",
+trainer:"أحمد العريقي",
+hours:40,
+status:"مكتملة"
+},
+
+{
+name:"الأمن السيبراني",
+trainer:"محمد الحضرمي",
+hours:30,
+status:"قيد التنفيذ"
+},
+
+{
+name:"مهارات القيادة",
+trainer:"سارة الأهدل",
+hours:24,
+status:"مخطط لها"
+}
+
+];
+
+/* ==========================
+عرض الدورات
+========================== */
+
+function renderCourses(){
+
+const table =
+document.getElementById(
+"coursesTable"
+);
+
+table.innerHTML = "";
+
+courses.forEach((course,index)=>{
+
+table.innerHTML += `
+
+<tr>
+
+<td>${course.name}</td>
+
+<td>${course.trainer}</td>
+
+<td>${course.hours}</td>
+
+<td>
+<span class="badge">
+${course.status}
+</span>
+</td>
+
+<td>
+
+<button
+class="danger"
+onclick="deleteCourse(${index})">
+
+حذف
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById(
+"totalCourses"
+).innerText =
+courses.length;
+
+localStorage.setItem(
+"academy_courses",
+JSON.stringify(courses)
+);
+
+}
+
+/* ==========================
+تحميل البيانات
+========================== */
+
+function loadCourses(){
+
+const data =
+localStorage.getItem(
+"academy_courses"
+);
+
+if(data){
+
+courses =
+JSON.parse(data);
+
+}
+
+renderCourses();
+
+}
+
+/* ==========================
+إضافة دورة
+========================== */
+
+function saveCourse(){
+
+courses.push({
+
+name:
+document.getElementById(
+"courseName"
+).value,
+
+trainer:
+document.getElementById(
+"trainerName"
+).value,
+
+hours:
+document.getElementById(
+"hours"
+).value,
+
+status:
+document.getElementById(
+"status"
+).value
+
+});
+
+renderCourses();
+
+closeModal();
+
+}
+
+/* ==========================
+حذف دورة
+========================== */
+
+function deleteCourse(index){
+
+if(confirm("هل تريد حذف الدورة؟")){
+
+courses.splice(index,1);
+
+renderCourses();
+
+}
+
+}
+
+/* ==========================
+فتح النافذة
+========================== */
+
+function openModal(){
+
+document.getElementById(
+"modal"
+).style.display =
+"block";
+
+}
+
+/* ==========================
+إغلاق النافذة
+========================== */
+
+function closeModal(){
+
+document.getElementById(
+"modal"
+).style.display =
+"none";
+
+}
+
+/* ==========================
+البحث
+========================== */
+
+document
+.getElementById("search")
+.addEventListener(
+"keyup",
+function(){
+
+const value =
+this.value.toLowerCase();
+
+document
+.querySelectorAll(
+"#coursesTable tr"
+)
+.forEach(row=>{
+
+row.style.display =
+
+row.innerText
+.toLowerCase()
+.includes(value)
+
+? ""
+
+: "none";
+
+});
+
+});
+
+/* ==========================
+التنقل بين الصفحات
+========================== */
+
+function showPage(page){
+
+document
+.querySelectorAll(".page")
+.forEach(section=>{
+
+section.classList.remove(
+"active"
+);
+
+});
+
+document
+.getElementById(page)
+.classList.add(
+"active"
+);
+
+}
+
+/* ==========================
+تشغيل أولي
+========================== */
+
+loadCourses();
+
+showPage("dashboard");
+
+</script>
+
+</body>
+
+</html>
